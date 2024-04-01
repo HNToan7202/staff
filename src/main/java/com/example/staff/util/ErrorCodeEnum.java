@@ -10,6 +10,10 @@ public enum ErrorCodeEnum {
     NO_CONTENT(204, 204, "Not have data"),
     BAD_REQUEST(400, 400, "Bad request"),
     NOT_FOUND(404, 404, "Not found"),
+    INVALID_EMAIL(400, 400, "Invalid email"),
+    INVALID_NAME(400, 400, "Invalid name"),
+    INVALID_ID(400, 400, "Invalid ID"),
+    INVALID_PHONE(400, 400, "Invalid phone number"),
     INTERNAL_SERVER_ERROR(500, 500, "Internal server error");
 
 
