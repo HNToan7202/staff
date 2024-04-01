@@ -66,7 +66,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         return result;
     }
 
-
     @Override
     public ActionResult getAllEmployee(Integer page, Integer size) {
         ActionResult result = new ActionResult();

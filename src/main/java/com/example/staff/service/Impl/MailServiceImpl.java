@@ -1,6 +1,7 @@
 package com.example.staff.service.Impl;
 
 import com.example.staff.entity.Employee;
+import com.example.staff.repository.EmployeeRepository;
 import com.example.staff.service.EmployeeService;
 import jakarta.mail.*;
 import jakarta.mail.internet.InternetAddress;
@@ -23,12 +24,12 @@ public class MailServiceImpl implements  Job {
 
     @Autowired
     EmployeeService employeeService;
-
+    @Autowired
+    EmployeeRepository employeeRepository;
 
     private void sendEmployeeList() {
 
-        List<Employee> employeeList = employeeService.findAll();
-
+        List<Employee> employeeList = employeeRepository.findAll();
 
         // Cấu hình thông tin email
         Properties props = new Properties();
