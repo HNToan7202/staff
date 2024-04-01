@@ -33,5 +33,10 @@ public class Validator {
         matcher = pattern.matcher(name);
         return matcher.matches();
     }
+    public static boolean isID(String id) {
+        pattern = Pattern.compile(Constants.ID_PATTERN);
+        matcher = pattern.matcher(id);
+        return matcher.matches();
+    }
 
 }
