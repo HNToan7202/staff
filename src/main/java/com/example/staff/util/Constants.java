@@ -10,7 +10,8 @@ public class Constants {
     public static final String DATE_FORMAT = "dd-MM-yyyy";
     public static final String GENDER = "^(MALE|FEMALE|OTHER)$";
     public static final String ID_PATTERN = "^[0-9]{3}$";
-    public static final String NAME_PATTERN = "^[a-zA-Z\\s]+";
+    public static final String NAME_PATTERN = "^[\\p{L}\\s]+";
+
 
 
 

@@ -12,7 +12,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id; // ID
-    private String employeeNumber; // Số nhân viên (3 chữ số)
+    private Integer employeeNumber; // Số nhân viên (3 chữ số)
     private String name; // Tên nhân viên
     private String phone; // Số điện thoại
     private String position; // Chức vụ

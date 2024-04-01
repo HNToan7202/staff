@@ -11,15 +11,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class EmployeeDTO {
-    private String employeeNumber; // Số nhân viên (3 chữ số)
+    private Integer employeeNumber; // Số nhân viên (3 chữ số)
     private String name; // Tên nhân viên
     private String phone; // Số điện thoại
     private String position; // Chức vụ
     private String email; // Địa chỉ email
 
     public static EmployeeDTO transform(Employee employee) {
+        String formattedEmployeeNumber = String.format("%03d", employee.getEmployeeNumber()); // Định dạng mã số nhân viên thành 3 chữ số
         return EmployeeDTO.builder()
-                .employeeNumber(String.format("%03d", Integer.parseInt(employee.getEmployeeNumber())))
+                .employeeNumber(Integer.parseInt(formattedEmployeeNumber)) // Chuyển đổi lại thành kiểu Integer
                 .name(employee.getName())
                 .phone(employee.getPhone())
                 .position(employee.getPosition())

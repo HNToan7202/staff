@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -74,6 +75,81 @@ public class EmployeeServiceImpl implements EmployeeService {
             List<EmployeeDTO> list = employees.getContent().stream().map(EmployeeDTO::transform).collect(Collectors.toList());
             result.setErrorCode(ErrorCodeEnum.OK);
             result.setData(PageModel.transform(employees, list));
+        } catch (Exception e) {
+            result.setErrorCode(ErrorCodeEnum.INTERNAL_SERVER_ERROR);
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+
+    @Override
+    public ActionResult searchEmployee(Integer page, Integer size, Integer employeeNumber, String name, String phone, String position, String email) {
+        ActionResult result = new ActionResult();
+        try {
+            Page<Employee> employees = employeeRepository.searchEmployees(employeeNumber, name, phone, position, email, PageRequest.of(page - 1, size));
+            List<EmployeeDTO> list = employees.getContent().stream().map(EmployeeDTO::transform).collect(Collectors.toList());
+            result.setErrorCode(ErrorCodeEnum.OK);
+            result.setData(PageModel.transform(employees, list));
+        } catch (Exception e) {
+            result.setErrorCode(ErrorCodeEnum.INTERNAL_SERVER_ERROR);
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+
+    @Override
+    public ActionResult updateEmployee(EmployeeDTO employeeDTO, Integer getEmployeeNumber) {
+        ActionResult result = new ActionResult();
+        try {
+            Optional<Employee> optionalEmployee = employeeRepository.findByEmployeeNumber(getEmployeeNumber);
+            if (optionalEmployee.isEmpty()) {
+                result.setErrorCode(ErrorCodeEnum.NOT_FOUND);
+                return result;
+            }
+            if (!Validator.isID(String.valueOf(employeeDTO.getEmployeeNumber()))) {
+                throw new InvalidID(Info.INVALID_ID);
+            }
+            if (!Validator.isEmail(employeeDTO.getEmail())) {
+                throw new InvalidEmail(Info.INVALID_EMAIL);
+            }
+            if (!Validator.isName(employeeDTO.getName())) {
+                throw new InvalidName(Info.INVALID_NAME);
+            }
+            if (!Validator.isPhoneNumber(employeeDTO.getPhone())) {
+                throw new InvalidPhone(Info.INVALID_PHONE);
+            }
+            BeanUtils.copyProperties(employeeDTO, optionalEmployee.get());
+            employeeRepository.save(optionalEmployee.get());
+            result.setErrorCode(ErrorCodeEnum.OK);
+
+        } catch (InvalidID e) {
+            result.setErrorCode(ErrorCodeEnum.INVALID_ID);
+        } catch (InvalidName e) {
+            result.setErrorCode(ErrorCodeEnum.INVALID_NAME);
+        } catch (InvalidPhone e) {
+            result.setErrorCode(ErrorCodeEnum.INVALID_PHONE);
+        } catch (InvalidEmail e) {
+            result.setErrorCode(ErrorCodeEnum.INVALID_EMAIL);
+        } catch (Exception e) {
+            result.setErrorCode(ErrorCodeEnum.INTERNAL_SERVER_ERROR);
+            System.out.println(e.getMessage());
+        }
+        return result;
+    }
+
+    @Override
+    public ActionResult deleteEmployee(Integer getEmployeeNumber) {
+        ActionResult result = new ActionResult();
+        try {
+            Optional<Employee> optionalEmployee = employeeRepository.findByEmployeeNumber(getEmployeeNumber);
+            if (optionalEmployee.isEmpty()) {
+                result.setErrorCode(ErrorCodeEnum.NOT_FOUND);
+                return result;
+            }
+            employeeRepository.delete(optionalEmployee.get());
+            result.setErrorCode(ErrorCodeEnum.OK);
         } catch (Exception e) {
             result.setErrorCode(ErrorCodeEnum.INTERNAL_SERVER_ERROR);
             System.out.println(e.getMessage());

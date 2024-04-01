@@ -12,4 +12,9 @@ public interface EmployeeService {
     ActionResult getAllEmployee(Integer page, Integer size);
 
 
+    ActionResult searchEmployee(Integer page, Integer size, Integer employeeNumber, String name, String phone, String position, String email);
+
+    ActionResult updateEmployee(EmployeeDTO employeeDTO, Integer getEmployeeNumber);
+
+    ActionResult deleteEmployee(Integer getEmployeeNumber);
 }
